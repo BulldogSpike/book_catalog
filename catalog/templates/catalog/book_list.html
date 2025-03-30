@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Каталог книг</title>
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Каталог книг</h1>
+        <a href="{% url 'add_book' %}" class="btn btn-primary mb-3">Добавить книгу</a>
+
+
+        <!-- Поиск и сортировка -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <form method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="title" placeholder="Поиск по названию">
+                        <button class="btn btn-outline-secondary" type="submit">Найти</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <select class="form-select" onchange="window.location.href=this.value">
+                    <option>Сортировать по:</option>
+                    <option value="?sort=title" {% if sort_by == 'title' %}selected{% endif %}>Названию (А-Я)</option>
+                    <option value="?sort=-title" {% if sort_by == '-нуtitle' %}selected{% endif %}>Названию (Я-А)</option>
+                    <option value="?sort=created_at" {% if sort_by == 'created_at' %}selected{% endif %}>Дате добавления (старые)</option>
+                    <option value="?sort=-created_at" {% if sort_by == '-created_at' %}selected{% endif %}>Дате добавления (новые)</option>
+                </select>
+            </div>
+        </div>
+
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Автор</th>
+                    <th>Категория</th>
+                    <th>Создано</th>
+                    <th>Обновлено</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in page_obj %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.category.name }}</td>
+                    <td>{{ book.created_at }}</td>
+                    <td>{{ book.updated_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+{% include 'catalog/pagination.html' %}

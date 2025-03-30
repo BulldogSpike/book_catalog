@@ -1,0 +1,18 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h1>Категории</h1>
+    <a href="{% url 'add_category' %}" class="btn btn-primary mb-3">Добавить категорию</a>
+    <table class="table table-striped">
+        {% for category in categories %}
+        <tr>
+            <td>{{ category.name }}</td>
+            <td>
+                <a href="{% url 'edit_category' category.pk %}" class="btn btn-sm btn-warning">Изменить</a>
+                <a href="{% url 'delete_category' category.pk %}" class="btn btn-sm btn-danger">Удалить</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
