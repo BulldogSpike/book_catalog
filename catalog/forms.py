@@ -6,6 +6,10 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['title', 'author', 'category']
+        widgets = {
+            'title': forms.TextInput(attrs={'required': True}),
+            'author': forms.TextInput(attrs={'required': True}),
+        }
 
     def clean_title(self):
         title = self.cleaned_data['title']

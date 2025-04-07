@@ -2,8 +2,7 @@
 {% block content %}
 <div class="container mt-4">
     <h2>Добавить книгу</h2>
-    
-    <!-- Блок ошибок -->
+
     {% if form.errors %}
     <div class="alert alert-danger">
         {% for field, errors in form.errors.items %}
