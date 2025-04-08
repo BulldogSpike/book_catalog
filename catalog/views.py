@@ -10,22 +10,22 @@ def book_list(request):
     books = Book.objects.all()
     categories = Category.objects.all()
 
-    # Фильтрация по названию
+    # фильтрация по названию
     title_query = request.GET.get('title')
     if title_query:
         books = books.filter(title__icontains=title_query)
 
-    # Фильтрация по категории
+    # фильтрация по категории
     category_id = request.GET.get('category')
     if category_id:
         books = books.filter(category_id=category_id)
 
-    # Фильтрация по дате
+    # фильтрация по дате
     date_query = request.GET.get('date')
     if date_query:
         books = books.filter(created_at__date=date_query)
 
-    # Сортировка
+    # сортировка
     allowed_sorts = [
         'title', '-title',
         'category__name', '-category__name',
@@ -33,14 +33,14 @@ def book_list(request):
         'updated_at', '-updated_at'  # все возможные сортировки
     ]
 
-    sort_by = request.GET.get('sort', '-created_at')  # По умолчанию сортировка по дате добавления (новые сверху)
+    sort_by = request.GET.get('sort', '-created_at')  # по умолчанию сортировка по дате добавления (сначала новые)
 
     if sort_by not in allowed_sorts:
-        sort_by = '-created_at'
+        sort_by = '-created_at'  # защита от неправильных параметров
 
     books = books.order_by(sort_by)
 
-    # Пагинация
+    # пагинация
     paginator = Paginator(books, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -49,7 +49,7 @@ def book_list(request):
         'request': request,
         'page_obj': page_obj,
         'sort_by': sort_by,
-        'categories': categories,  # Передаем категории в шаблон
+        'categories': categories,
     })
 
 
