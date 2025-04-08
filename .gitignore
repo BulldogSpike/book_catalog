@@ -4,7 +4,6 @@ env/
 
 # Файлы IDE
 .idea/
-.vscode/
 
 # База данных SQLite
 db.sqlite3
@@ -12,7 +11,3 @@ db.sqlite3
 # Логи и кэш
 *.log
 *.pyc
-
-# Статические файлы (если не используются)
-staticfiles/
-media/
